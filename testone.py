@@ -37,7 +37,7 @@ def localBinaryPatterns(image, numPoints, radius, eps=1e-7):
     return lbp
 
 def createLBPimage(imagePath, image):
-    pointsNumber = 9
+    pointsNumber = 8
     radius = 1
 
     image = cv2.imread(imagePath + '/' + image)
