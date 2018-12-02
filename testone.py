@@ -13,13 +13,18 @@ def localBinaryPatterns(image, numPoints, radius, eps=1e-7):
                                        radius, method="uniform")
     # print(lbp)
 
-    (hist, _) = np.histogram(lbp.ravel(),
-                             bins=np.arange(0, numPoints + 3),
-                             range=(0, numPoints + 2))
 
-    # normalize the histogram
-    hist = hist.astype("float")
-    hist /= (hist.sum() + eps)
+    # cv2.imshow("image", image)
+    # cv2.imwrite('color_img.jpg', lbp)
+    # cv2.waitKey();
+
+    # (hist, _) = np.histogram(lbp.ravel(),
+    #                          bins=np.arange(0, numPoints + 3),
+    #                          range=(0, numPoints + 2))
+    #
+    # # normalize the histogram
+    # hist = hist.astype("float")
+    # hist /= (hist.sum() + eps)
 
     # print histogram
     # plt.hist(lbp.ravel(),
@@ -28,21 +33,21 @@ def localBinaryPatterns(image, numPoints, radius, eps=1e-7):
     # plt.show()
 
     # return the histogram of Local Binary Patterns
-    return hist
+    # return hist
+    return lbp
 
-
-def createHistogram(imagePath, image):
-    pointsNumber = 24
-    radius = 8
+def createLBPimage(imagePath, image):
+    pointsNumber = 9
+    radius = 1
 
     image = cv2.imread(imagePath + '/' + image)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    hist = localBinaryPatterns(gray, pointsNumber, radius)
+    lbp = localBinaryPatterns(gray, pointsNumber, radius)
 
-    print(hist)
+    # print(lbp)
 
-    return hist
+    return lbp
 
 
 def createTraingSet():
@@ -63,24 +68,26 @@ def createTraingSet():
         tmp_path = path + "/" + folder
         images = os.listdir(tmp_path)
         for image in images:
-            print(image)
+            # print(image)
             # create histogram
-            tmp_hist = createHistogram(tmp_path, image)
+            tmp_hist = createLBPimage(tmp_path, image)
 
             # save histogram
             x.append(tmp_hist)
 
             # save label
             y.append(folder)
-        break
+
+            # break
+        # break
     return x, y
 
 
 # def main():
 print("Hello World!")
-dataX, dataY = createTraingSet()
-np.save("dataX.npy", dataX)
-np.save("dataY.npy", dataY)
+# dataX, dataY = createTraingSet()
+# np.save("dataX.npy", dataX)
+# np.save("dataY.npy", dataY)
 dataXXX = np.load("dataX.npy")
 dataYYY = np.load("dataY.npy")
 
